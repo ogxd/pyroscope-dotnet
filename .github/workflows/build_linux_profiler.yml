@@ -9,27 +9,24 @@ on:
 jobs:
   build-linux-profiler-x86_64:
     runs-on: ubuntu-latest
+    container: debian:10
     env:
       DOCKER_BUILDKIT: 1
     strategy:
       matrix:
-        name: ['glibc', 'musl']
+        name: ['glibc']
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
         with:
           submodules: 'true'
-      - run: RELEASE_VERSION=dev-$(git rev-parse --short HEAD) ARCH=x86_64 LIBC=${{ matrix.name }}  make docker/build
-  build-linux-profiler-aarch64:
-    runs-on: [self-hosted, Linux, ARM64]
-    env:
-      DOCKER_BUILDKIT: 1
-    strategy:
-      matrix:
-        name: ['glibc', 'musl']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - run: apt-get update && apt-get -y install cmake clang make git curl golang libtool
+      - run: cd profiler
+      - run: mkdir build-release && cd build-release && cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
+      - run: cd build-release && make -j16 Datadog.Profiler.Native Datadog.Linux.ApiWrapper.x64
+      - name: Artifact
+        uses: actions/upload-artifact@v3
         with:
-          submodules: 'true'
-      - run: RELEASE_VERSION=dev-$(git rev-parse --short HEAD) ARCH=aarch64 LIBC=${{ matrix.name }}  make docker/build
+          name: profiler-libs
+          path: |
+            **/*.so
