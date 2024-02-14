@@ -1652,7 +1652,7 @@ HRESULT STDMETHODCALLTYPE CorProfilerCallback::HandleDestroyed(GCHandleID handle
 
 HRESULT STDMETHODCALLTYPE CorProfilerCallback::InitializeForAttach(IUnknown* pCorProfilerInfoUnk, void* pvClientData, UINT cbClientData)
 {
-    return S_OK;
+    return Initialize(pCorProfilerInfoUnk);
 }
 
 HRESULT STDMETHODCALLTYPE CorProfilerCallback::ProfilerAttachComplete()
