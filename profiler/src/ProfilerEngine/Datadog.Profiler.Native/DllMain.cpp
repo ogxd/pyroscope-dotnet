@@ -44,6 +44,12 @@ extern "C" BOOL STDMETHODCALLTYPE DllMain(HINSTANCE hInstDll, DWORD reason, PVOI
 
 bool CheckProfilingEnabledEnvironmentVariable()
 {
+    Log::Info("PYROSCOPE_APPLICATION_NAME = ", std::getenv("PYROSCOPE_APPLICATION_NAME"));
+    Log::Info("PYROSCOPE_PROFILING_ENABLED = ", std::getenv("PYROSCOPE_PROFILING_ENABLED"));
+    Log::Info("PYROSCOPE_PROFILING_CPU_ENABLED = ", std::getenv("PYROSCOPE_PROFILING_CPU_ENABLED"));
+
+    return true;
+
     // If we are in this function, then the user has already configured profiling by setting CORECLR_ENABLE_PROFILING to 1
     // and by correctly pointing the CORECLR_PROFILER_XXX variables.
     // However, we still want to respect the DD_PROFILING_ENABLED variable for:
