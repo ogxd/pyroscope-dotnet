@@ -365,12 +365,12 @@ bool OpSysTools::IsSafeToStartProfiler(double coresThreshold)
 
     // make sure that the default symbol for the custom function
     // is at the same address as the one found in our lib
-    if (customFn != dlsym(RTLD_DEFAULT, customFnName))
-    {
-        Log::Warn("Custom function '", customFnName, "' is not the default one. That indicates that the library ",
-              "'", wrapperLibraryPath, "' is not loaded using the LD_PRELOAD environment variable");
-        return false;
-    }
+    // if (customFn != dlsym(RTLD_DEFAULT, customFnName))
+    // {
+    //     Log::Warn("Custom function '", customFnName, "' is not the default one. That indicates that the library ",
+    //           "'", wrapperLibraryPath, "' is not loaded using the LD_PRELOAD environment variable");
+    //     return false;
+    // }
 
     double cpuLimit;
 
