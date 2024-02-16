@@ -154,6 +154,9 @@ void PyroscopePprofSink::upload(Pprof pprof, ProfileTime& startTime, ProfileTime
                            .str();
 
     httplib::Headers headers = getHeaders();
+
+    Log::Debug("PyroscopePprofSink sending sample to path: ", path);
+
     auto res = _client.Post(path, headers, data);
     if (res)
     {
