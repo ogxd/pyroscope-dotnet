@@ -249,6 +249,24 @@ extern "C" void __stdcall SetExceptionTrackingEnabled(bool enabled)
     profiler->SetExceptionTrackingEnabled(enabled);
 }
 
+extern "C" void __stdcall RequestDetach()
+{
+    auto* const profiler = CorProfilerCallback::GetInstance();
+
+    if (profiler == nullptr)
+    {
+        Log::Error("RequestDetach is called BEFORE CLR initialize");
+        return;
+    }
+
+    if (!profiler->GetClrLifetime()->IsRunning())
+    {
+        Log::Warn("Cannot detach profiler when not running");
+        return;
+    }
+    profiler->RequestDetach();
+}
+
 extern "C" void __stdcall SetPyroscopeAuthToken(const char* authToken)
 {
     auto* const profiler = CorProfilerCallback::GetInstance();

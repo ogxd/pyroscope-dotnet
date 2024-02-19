@@ -125,6 +125,12 @@ void CorProfilerCallback::SetExceptionTrackingEnabled(bool enabled)
     }
 }
 
+void CorProfilerCallback::RequestDetach() {
+    Log::Debug("Requesting profiler detach...");
+    _pCorProfilerInfo->RequestProfilerDetach(5000);
+    Log::Debug("Profiler detach requested");
+}
+
 std::shared_ptr<PyroscopePprofSink> CorProfilerCallback::GetPyroscopePprofSink() {
     return _pyroscopePprofSink;
 };

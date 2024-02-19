@@ -197,6 +197,7 @@ public:
     void SetAllocationTrackingEnabled(bool enabled);
     void SetContentionTrackingEnabled(bool enabled);
     void SetExceptionTrackingEnabled(bool enabled);
+    void RequestDetach();
     std::shared_ptr<PyroscopePprofSink> GetPyroscopePprofSink();
 
 private :
