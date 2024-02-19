@@ -126,9 +126,11 @@ void CorProfilerCallback::SetExceptionTrackingEnabled(bool enabled)
 }
 
 void CorProfilerCallback::RequestDetach() {
+    Log::Debug("Stopping services...");
+    DisposeInternal();
     Log::Debug("Requesting profiler detach...");
     HRESULT hr = _pCorProfilerInfo->RequestProfilerDetach(5000);
-    if hr == S_OK) {
+    if (hr == S_OK) {
         Log::Debug("Profiler detach requested");
     } else {
         Log::Error("Profiler detach request failed: " + hr);
@@ -1667,11 +1669,13 @@ HRESULT STDMETHODCALLTYPE CorProfilerCallback::InitializeForAttach(IUnknown* pCo
 
 HRESULT STDMETHODCALLTYPE CorProfilerCallback::ProfilerAttachComplete()
 {
+    Log::Debug("Profiler successfully attached.");
     return S_OK;
 }
 
 HRESULT STDMETHODCALLTYPE CorProfilerCallback::ProfilerDetachSucceeded()
 {
+    Log::Debug("Profiler successfully detached.");
     return S_OK;
 }
 
